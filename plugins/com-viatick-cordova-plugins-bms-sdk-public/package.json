@@ -1,0 +1,52 @@
+{
+  "_from": "git+https://github.com/Viatick-co/bms-cordova-sdk-public.git",
+  "_id": "com-viatick-cordova-plugins-bms-sdk-public@0.1.2",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/com-viatick-cordova-plugins-bms-sdk-public",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/Viatick-co/bms-cordova-sdk-public.git",
+    "rawSpec": "https://github.com/Viatick-co/bms-cordova-sdk-public.git",
+    "saveSpec": "git+https://github.com/Viatick-co/bms-cordova-sdk-public.git",
+    "fetchSpec": "https://github.com/Viatick-co/bms-cordova-sdk-public.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/Viatick-co/bms-cordova-sdk-public.git#d995dd3db7250cb41ebf242a6fdc1cade979c71d",
+  "_spec": "https://github.com/Viatick-co/bms-cordova-sdk-public.git",
+  "_where": "/Users/adam/Development/yougan/yougan-app",
+  "author": {
+    "name": "viatick"
+  },
+  "bugs": {
+    "url": "https://github.com/Viatick-co/bms-cordova-sdk-public/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "com-viatick-cordova-plugins-bms-sdk-public",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "bms cordova sdk",
+  "homepage": "https://github.com/Viatick-co/bms-cordova-sdk-public#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "ISC",
+  "name": "com-viatick-cordova-plugins-bms-sdk-public",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Viatick-co/bms-cordova-sdk-public.git"
+  },
+  "version": "0.1.2"
+}
