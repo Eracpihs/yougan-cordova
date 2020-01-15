@@ -26,7 +26,7 @@ export default class App extends Component {
     // ibeacons that you want to return distance callback
     let iBeacons = [];
 
-    let bmsEnvironment = "DEV"; // BMS environment, default is "PROD"
+    let bmsEnvironment = "CHINA"; // BMS environment, default is "PROD"
 
     try {
       window.cordova.plugins.BmsCordovaSdkPublic.setting(
