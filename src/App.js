@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 import { beaconListener } from "./apis";
-import moment from "moment";
+import Diagnostics from "./components/Diagnostics";
+import { Route, HashRouter } from "react-router-dom";
+import Setup from "./pages/Setup";
+import "antd-mobile/dist/antd-mobile.css";
+import { DiningTable, Counter } from "./pages";
 
 export default class App extends Component {
   constructor(props) {
@@ -39,16 +43,28 @@ export default class App extends Component {
     const { initSdk, beacons } = this.state;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>Sdk: {initSdk ? "Connected" : "Not connected"}</p>
-          <p>Beacons count: {beacons.length}</p>
-          {Array.from(
-            beacons.map(([k, v]) => {
-              return <p>{`${k} (${v.format("h:mm:ss")})`}</p>;
-            })
-          )}
-        </header>
+      <div>
+        <HashRouter>
+          <Diagnostics initSdk={initSdk} beacons={beacons} />
+          <div
+            style={{
+              boxSizing: "border-box",
+              height: "100vh",
+              padding: "10vw"
+            }}
+          >
+            <Route exact path="/">
+              <Setup />
+            </Route>
+            <Route path="/diningTable">
+              <DiningTable />
+            </Route>
+            <Route path="/counter">
+              <Counter />
+            </Route>
+          </div>
+        </HashRouter>
+        {/* <Diagnostics initSdk={initSdk} beacons={beacons} /> */}
       </div>
     );
   }
