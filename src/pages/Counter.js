@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-// import SelectUser from "../components/counter/SelectUser"
+import { SelectUser } from "../components";
 
 const Counter = props => {
   const { data } = useQuery(gql`
@@ -14,11 +14,27 @@ const Counter = props => {
   const { shopId = "", feature = "" } = data || {};
   const { beacons } = props;
 
-  console.log("data:", data);
+  const [currentUser, setCurrentUser] = useState({});
 
-  return <div>{`${shopId} (${feature})`}
-  {/* <SelectUser shopId={shopId} beacons={beacons}/> */}
-  </div>;
+  return (
+    <div>
+      <SelectUser
+        users={[
+          {
+            _id: "5e181064cdd3970024a63792",
+            gender: null,
+            region: null,
+            lastName: null,
+            firstName: "lola",
+            telephone: "13036591269",
+            avatarUrl: "https://i.picsum.photos/id/461/200/300.jpg",
+            beaconMinor: "1"
+          }
+        ]}
+        onSelectUser={user => setCurrentUser(user)}
+      />
+    </div>
+  );
 };
 
 export default Counter;
