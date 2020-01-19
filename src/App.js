@@ -39,8 +39,12 @@ export default class App extends Component {
     this.setState({ initSdk: true });
   };
 
+  handleSelectShop = shop => {
+    this.setState({ shop });
+  };
+
   render() {
-    const { initSdk, beacons } = this.state;
+    const { initSdk, beacons, shop } = this.state;
 
     return (
       <div>
@@ -54,13 +58,13 @@ export default class App extends Component {
             }}
           >
             <Route exact path="/">
-              <Setup />
+              <Setup onSelectShop={this.handleSelectShop} />
             </Route>
             <Route path="/dining-table">
               <DiningTable />
             </Route>
             <Route path="/counter">
-              <Counter beacons={beacons} />
+              <Counter shop={shop} beacons={beacons} />
             </Route>
             <Route path="/welcome-mat">
               <Counter />

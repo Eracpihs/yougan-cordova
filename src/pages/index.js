@@ -1,4 +1,6 @@
-export { default as Counter } from "./Counter";
+export { default as Counter } from "./counter/Counter";
+export { default as Recommendation } from "./counter/Recommendation";
+export { default as Payment } from "./counter/Payment";
 export { default as DiningTable } from "./DiningTable";
 export { default as WelcomeMat } from "./WelcomeMat";
 export { default as OrderTidbits } from "./diningTable/OrderTidbits";
