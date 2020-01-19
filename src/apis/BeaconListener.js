@@ -31,7 +31,7 @@ class BeaconListener {
         setInterval(() => {
           const beaconsMap = this.handleBeacons();
           onBeacons(Array.from(beaconsMap.entries()));
-        }, 2000);
+        }, 5000);
       }
     });
   };

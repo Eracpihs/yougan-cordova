@@ -36,51 +36,7 @@
     transform: rotate(360deg);
   }
 }
-.yougan {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background-color: #000;
-  color: white;
-}
-/*****************************input-beaconld********************************/
-.input-beaconld {
-  width: 80vw;
-  height: 40vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: #fff;
 
-  .ant-input-search {
-    width: 40vw;
-    height: 5vw;
-    display: flex;
-    align-items: center;
-    &:hover,
-    &:focus {
-      border-color: rgba(0, 0, 0, 0.65);
-      outline: none;
-      background: none;
-    }
-
-    .ant-input-suffix {
-      left: 33vw;
-    }
-  }
-
-  .ant-btn-primary {
-    width: 20vw;
-    height: 3vw;
-  }
-}
-
-/*****************************end input-beaconld********************************/
 /*****************************ChoseWhoAreYou********************************/
 .choose-yourself {
   &--informations {

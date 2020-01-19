@@ -38,7 +38,7 @@ const getCarouselItemsFromUsers = users => {
 
   users.forEach(user => {
     const { firstName, _id } = user;
-    const { currentOrders } = user;
+    const { currentOrders = [] } = user;
 
     if (currentOrders.length) {
       currentOrders.forEach(currentOrder => {

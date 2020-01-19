@@ -1,14 +1,30 @@
 import React, { Component } from "react";
-import { List, InputItem, Picker, Button, WhiteSpace } from "antd-mobile";
+import { List, Picker, Button, WhiteSpace } from "antd-mobile";
+import { getShops } from "../query";
 
 export class SetupForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      shopId: "",
+      shopList: [],
+      shop: {},
       feature: ["diningTable"]
     };
+  }
+
+  componentDidMount() {
+    getShops().then(res => {
+      if (!res.data || !res.data.getShops) {
+        return [];
+      }
+
+      const shopList = res.data.getShops.map(s => ({
+        label: s.name,
+        value: s
+      }));
+      this.setState({ shopList });
+    });
   }
 
   render() {
@@ -24,19 +40,21 @@ export class SetupForm extends Component {
     ];
 
     const { onSubmit } = this.props;
-    const { feature, shopId } = this.state;
+    const { shopList, feature, shop } = this.state;
 
+    // TODO: Fix Picker alignment
     return (
       <div>
         <h1>Setup</h1>
         <List>
-          <InputItem
-            placeholder="Shop ID"
-            value={shopId}
-            onChange={v => this.setState({ shopId: v })}
+          <Picker
+            title="Shop"
+            data={shopList}
+            value={shop}
+            onChange={s => this.setState({ shop: s })}
           >
-            Shop ID
-          </InputItem>
+            <List.Item arrow="horizontal">Shop</List.Item>
+          </Picker>
           <Picker
             title="Function"
             data={featureList}
@@ -49,7 +67,7 @@ export class SetupForm extends Component {
 
         <WhiteSpace />
         <Button
-          onClick={() => onSubmit({ shopId, feature: feature[0] })}
+          onClick={() => onSubmit({ shop, feature: feature[0] })}
           type="primary"
         >
           Submit
