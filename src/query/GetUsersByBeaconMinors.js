@@ -1,7 +1,7 @@
 import { gql } from "apollo-boost";
 import client from "../client";
 
-const getUsersByBeaconMinors = async ids => {
+const getUsersByBeaconMinors = async beaconMinors => {
   return await client
     .query({
       query: gql`
@@ -44,7 +44,9 @@ const getUsersByBeaconMinors = async ids => {
           }
         }
       `,
-      variables: { ids }
+      variables: {
+        beaconMinors
+      }
     })
     .catch(err => {
       console.log("err:", err);
