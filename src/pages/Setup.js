@@ -21,7 +21,10 @@ export const Setup = () => {
         history.push("/counter");
         break;
       case "diningTable":
-        history.push("/diningTable");
+        history.push("/dining-table");
+        break;
+      case "welcome-mat":
+        history.push("/welcome-mat");
         break;
       default:
         // Do nothing

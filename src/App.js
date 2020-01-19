@@ -56,15 +56,17 @@ export default class App extends Component {
             <Route exact path="/">
               <Setup />
             </Route>
-            <Route path="/diningTable">
+            <Route path="/dining-table">
               <DiningTable />
             </Route>
             <Route path="/counter">
               <Counter />
             </Route>
+            <Route path="/welcome-mat">
+              <Counter />
+            </Route>
           </div>
         </HashRouter>
-        {/* <Diagnostics initSdk={initSdk} beacons={beacons} /> */}
       </div>
     );
   }
