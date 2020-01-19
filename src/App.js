@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
+import "./App.scss";
 import { beaconListener } from "./apis";
 import Diagnostics from "./components/Diagnostics";
 import { Route, HashRouter } from "react-router-dom";
