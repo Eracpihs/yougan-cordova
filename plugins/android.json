@@ -7,10 +7,10 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-whitelist": {
+    "com-viatick-cordova-plugins-bms-sdk-public": {
       "PACKAGE_NAME": "come.yougan.cordova"
     },
-    "com-viatick-cordova-plugins-bms-sdk-public": {
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "come.yougan.cordova"
     }
   },

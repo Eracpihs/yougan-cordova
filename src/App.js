@@ -57,11 +57,20 @@ export default class App extends Component {
               <Setup />
             </Route>
             <Route path="/diningTable">
-              <DiningTable />
+              <DiningTable beacons={beacons} />
             </Route>
-            <Route path="/counter">
-              <Counter />
+            {/* <Route path="/counter">
+              <Counter beacons={beacons} />
             </Route>
+            <Route path="/counter/selectUser">
+              <Counter beacons={beacons} />
+            </Route>
+            <Route path="/counter/recommendPage">
+              <Counter beacons={beacons} />
+            </Route>
+            <Route path="/counter/recommendDetails">
+              <Counter beacons={beacons} />
+            </Route> */}
           </div>
         </HashRouter>
         {/* <Diagnostics initSdk={initSdk} beacons={beacons} /> */}
