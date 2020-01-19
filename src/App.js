@@ -15,7 +15,7 @@ export default class App extends Component {
     this.state = {
       initSdk: false,
       userId: "",
-      beacons: ["1", "4"],
+      beacons: [],
       users: []
     };
   }
@@ -33,17 +33,18 @@ export default class App extends Component {
     });
 
     // TODO: Remove after testing
-    setTimeout(() => {
-      this.handleBeacons(["3"]);
-    }, 5000);
-    setTimeout(() => {
-      this.handleBeacons(["1", "4"]);
-    }, 10000);
+    // setTimeout(() => {
+    //   this.handleBeacons(["3"]);
+    // }, 5000);
+    // setTimeout(() => {
+    //   this.handleBeacons(["1", "4"]);
+    // }, 10000);
   }
 
   handleBeacons = beacons => {
     // TODO: Fetch users from beacons
-    getUsersByBeaconMinors(beacons).then(res => {
+    const beaconMinors = beacons.map(beacon => beacon[0]);
+    getUsersByBeaconMinors(beaconMinors).then(res => {
       console.log(res);
       const {
         data: { getUsersByBeaconMinors }
