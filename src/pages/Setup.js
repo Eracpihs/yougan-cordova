@@ -1,14 +1,20 @@
 import React from "react";
 import SetupForm from "../components/SetupForm";
 import { useHistory } from "react-router-dom";
+import { useApolloClient } from "@apollo/react-hooks";
 
 export const Setup = () => {
+  const client = useApolloClient();
   const history = useHistory();
 
   const handleSubmit = ({ shopId, feature }) => {
     // TODO: Load shop into state
-
-    console.log(feature);
+    client.writeData({
+      data: {
+        shopId,
+        feature
+      }
+    });
 
     switch (feature) {
       case "counter":
