@@ -1,113 +1,143 @@
-import React, { useState } from "react";
-// import { Carousel, notification } from "antd";
-// import GetUsersNearby from "../../graphqlOperation/GetNearbyUsers";
+import React, { useState, useEffect } from "react";
+import { Carousel, notification, Toast } from "antd-mobile";
+import { diff } from "fast-array-diff";
+import arrayDiffer from "array-differ";
 import getUser from "../../query/GetUser";
-// import getUserBy from "./";
+import GetUsersByBeaconMinors from "../../query/GetUsersByBeaconMinors";
+
+// const openNotification = (
+//   carouselItems,
+//   previousNearbyUsers,
+//   setPreviousNearbyUsers,
+//   setIsNotify
+// ) => {
+//   if (!previousNearbyUsers) {
+//     setPreviousNearbyUsers(carouselItems);
+//     setTimeout(() => {
+//       if (carouselItems) {
+//         carouselItems.forEach(carouselItem => {
+//           Toast.info(`Hello, ${carouselItem.firstName}, 欢迎你！`);
+//         });
+//       }
+//     }, 2000);
+//     setIsNotify(false);
+//   } else {
+//     let prevUserIds = [];
+//     let currentUserIds = [];
+
+//     carouselItems.forEach(carouselItem => {
+//       if (currentUserIds.indexOf(carouselItem.userId) === -1) {
+//         currentUserIds.push(carouselItem.userId);
+//       }
+//     });
+
+//     previousNearbyUsers.forEach(previousNearbyUser => {
+//       if (prevUserIds.indexOf(previousNearbyUser.userId) === -1) {
+//         prevUserIds.push(previousNearbyUser.userId);
+//       }
+//     });
+
+//     const newUserIds = currentUserIds.filter(currentUserId => {
+//       if (!prevUserIds.includes(currentUserId)) {
+//         return currentUserId;
+//       }
+//     });
+
+//     newUserIds.forEach(newUserId => {
+//       getUser(newUserId).then(data => {
+//         const {
+//           data: { getUser }
+//         } = data;
+//         Toast.info(`Hello, ${getUser.firstName}, 欢迎你！`);
+//       });
+//     });
+//   }
+// };
 
 const openNotification = (
   carouselItems,
   previousNearbyUsers,
   setPreviousNearbyUsers,
-  bluetoothUuid
+  setIsNotify,
+  newUsers
 ) => {
-  if (!previousNearbyUsers) {
-    setPreviousNearbyUsers(carouselItems);
-    setTimeout(() => {
-      carouselItems.forEach(carouselItem => {
-        // notification.open({
-        //   message: `Hello, ${carouselItem.firstName}, 欢迎来到${bluetoothUuid}号桌！`,
-        //   key: carouselItem.firstName
-        // });
-      });
-    }, 2000);
-  } else {
-    let prevUserIds = [];
-    let currentUserIds = [];
-
-    carouselItems.forEach(carouselItem => {
-      if (currentUserIds.indexOf(carouselItem.userId) === -1) {
-        currentUserIds.push(carouselItem.userId);
-      }
-    });
-
-    previousNearbyUsers.forEach(previousNearbyUser => {
-      if (prevUserIds.indexOf(previousNearbyUser.userId) === -1) {
-        prevUserIds.push(previousNearbyUser.userId);
-      }
-    });
-
-    const newUserIds = currentUserIds.filter(currentUserId => {
-      if (!prevUserIds.includes(currentUserId)) {
-        return currentUserId;
-      }
-    });
-
-    newUserIds.forEach(newUserId => {
-      getUser(newUserId).then(data => {
-        const {
-          data: { getUser }
-        } = data;
-        // notification.open({
-        //   message: `Hello, ${getUser.firstName}, 欢迎来到${bluetoothUuid}号桌！`,
-        //   key: getUser.firstName
-        // });
-      });
-    });
-  }
+  // console.log("previousNearbyUsers:", previousNearbyUsers);
+  // console.log("newUsers:", newUsers);
 };
 
 export default function OrderTidbits(props) {
-  const {
-    match: {
-      params: { beaconId, bluetoothUuid }
-    }
-  } = props;
+  const { shopId, beacons = [] } = props;
 
-  const { shopId, beacons } = props;
-
+  const [prevBeacons, setPrevBeacons] = useState([]);
+  const [newUsers, setNewUsers] = useState();
   const [previousNearbyUsers, setPreviousNearbyUsers] = useState(null);
 
-  let isNotify = false;
+  const [isNotify, setIsNotify] = useState(false);
+  const [carouselItems, setCarouselItems] = useState();
 
-  // const data = GetUsersNearby(beaconId);
-  const data = [];
+  if (!prevBeacons.length) {
+    GetUsersByBeaconMinors(beacons).then(res => {
+      const {
+        data: { getUsersByBeaconMinors }
+      } = res;
+      setPreviousNearbyUsers(getUsersByBeaconMinors);
+    });
+  }
 
-  let carouselItems = [];
-  if (data) {
-    if (data.nearbyUsers) {
-      data.nearbyUsers.forEach(nearbyUser => {
-        const { firstName, _id } = nearbyUser;
-        const { currentOrders } = nearbyUser;
+  if (didBeaconsChange(beacons, prevBeacons, setNewUsers, newUsers)) {
+    setPrevBeacons(beacons);
 
-        if (currentOrders.length) {
-          currentOrders.forEach(currentOrder => {
-            if (currentOrder) {
-              const { menuItems } = currentOrder;
+    GetUsersByBeaconMinors(beacons).then(res => {
+      const {
+        data: { getUsersByBeaconMinors }
+      } = res;
 
-              menuItems &&
-                menuItems.forEach(menuItem => {
-                  carouselItems.push({ firstName, userId: _id, ...menuItem });
-                });
-            } else {
-              carouselItems.push({ firstName, userId: _id });
-            }
-          });
-        } else {
-          carouselItems.push({ firstName, userId: _id });
-        }
-      });
-    }
-    isNotify = true;
+      console.log("getUsersByBeaconMinors:", getUsersByBeaconMinors);
+      let carouselItems = [];
+
+      if (getUsersByBeaconMinors) {
+        getUsersByBeaconMinors.forEach(user => {
+          const { firstName, _id } = user;
+          const { currentOrders } = user;
+
+          if (currentOrders.length) {
+            currentOrders.forEach(currentOrder => {
+              if (currentOrder) {
+                const { menuItems } = currentOrder;
+
+                menuItems &&
+                  menuItems.forEach(menuItem => {
+                    carouselItems.push({ firstName, userId: _id, ...menuItem });
+                  });
+              } else {
+                carouselItems.push({ firstName, userId: _id });
+              }
+            });
+          } else {
+            carouselItems.push({ firstName, userId: _id });
+          }
+        });
+      }
+      setIsNotify(true);
+      openNotification(
+        carouselItems,
+        previousNearbyUsers,
+        setPreviousNearbyUsers,
+        setIsNotify
+      );
+      setCarouselItems(carouselItems);
+    });
   }
 
   return (
     <div className="order-tidbits">
-      {/* {isNotify &&
+      {isNotify &&
         openNotification(
           carouselItems,
           previousNearbyUsers,
           setPreviousNearbyUsers,
-          bluetoothUuid
+          setIsNotify,
+          newUsers
         )}
       {carouselItems && (
         <Carousel
@@ -116,10 +146,10 @@ export default function OrderTidbits(props) {
           autoplaySpeed={5000}
           effect="fade"
         >
-          {carouselItems.map(carouselItem => {
+          {carouselItems.map((carouselItem, index) => {
             if (carouselItem.images) {
               return (
-                <div>
+                <div key={index}>
                   <img
                     className="order-tidbits--food-images"
                     src={carouselItem.images && carouselItem.images[0]}
@@ -133,7 +163,27 @@ export default function OrderTidbits(props) {
             }
           })}
         </Carousel>
-      )} */}
+      )}
     </div>
   );
 }
+
+const didBeaconsChange = (beacons, prevBeacons, setNewUsers, newUsers) => {
+  var diff = arrayDiffer(beacons, prevBeacons);
+
+  if (diff.length) {
+    GetUsersByBeaconMinors(diff).then(res => {
+      console.log("diff:", diff);
+
+      const {
+        data: { getUsersByBeaconMinors }
+      } = res;
+
+      console.log("getUsersByBeaconMinors:", getUsersByBeaconMinors);
+      setNewUsers(getUsersByBeaconMinors);
+      console.log("newUsers:", newUsers);
+    });
+    return true;
+  }
+  return false;
+};

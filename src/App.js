@@ -6,6 +6,7 @@ import { Route, HashRouter } from "react-router-dom";
 import Setup from "./pages/Setup";
 import "antd-mobile/dist/antd-mobile.css";
 import { DiningTable, Counter } from "./pages";
+import getUsersByBeaconMinors from "./query/GetUsersByBeaconMinors";
 
 export default class App extends Component {
   constructor(props) {
@@ -14,7 +15,8 @@ export default class App extends Component {
     this.state = {
       initSdk: false,
       userId: "",
-      beacons: []
+      beacons: ["1", "4"],
+      users: []
     };
   }
 
@@ -29,10 +31,29 @@ export default class App extends Component {
       onBeacons: this.handleBeacons,
       userId: ""
     });
+
+    // TODO: Remove after testing
+    setTimeout(() => {
+      this.handleBeacons(["3"]);
+    }, 5000);
+    setTimeout(() => {
+      this.handleBeacons(["1", "4"]);
+    }, 10000);
   }
 
   handleBeacons = beacons => {
-    this.setState({ beacons });
+    // TODO: Fetch users from beacons
+    getUsersByBeaconMinors(beacons).then(res => {
+      console.log(res);
+      const {
+        data: { getUsersByBeaconMinors }
+      } = res;
+
+      this.setState({
+        users: getUsersByBeaconMinors,
+        beacons
+      });
+    });
   };
 
   handleInitBeaconListener = () => {
@@ -44,10 +65,10 @@ export default class App extends Component {
   };
 
   render() {
-    const { initSdk, beacons, shop } = this.state;
+    const { initSdk, beacons, shop, users } = this.state;
 
     return (
-      <div>
+      <div className="hhhh">
         <HashRouter>
           <Diagnostics initSdk={initSdk} beacons={beacons} />
           <div
@@ -61,7 +82,7 @@ export default class App extends Component {
               <Setup onSelectShop={this.handleSelectShop} />
             </Route>
             <Route path="/dining-table">
-              <DiningTable />
+              <DiningTable users={users} />
             </Route>
             <Route path="/counter">
               <Counter shop={shop} beacons={beacons} />

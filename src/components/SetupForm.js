@@ -7,7 +7,7 @@ export class SetupForm extends Component {
 
     this.state = {
       shopId: "",
-      feature: ["counter"]
+      feature: ["diningTable"]
     };
   }
 
