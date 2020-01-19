@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { Carousel, notification } from "antd";
 // import GetUsersNearby from "../../graphqlOperation/GetNearbyUsers";
 import getUser from "../../query/GetUser";
-import getUserBy from "./";
+// import getUserBy from "./";
 
 const openNotification = (
   carouselItems,
