@@ -83,10 +83,6 @@
 /*****************************end input-beaconld********************************/
 /*****************************ChoseWhoAreYou********************************/
 .choose-yourself {
-  &--reminder {
-    color: #fff;
-    font-family: cursive;
-  }
   &--informations {
     list-style: none;
     display: flex;
@@ -164,7 +160,6 @@
 
   &--food-descriptions {
     padding: 10px 10px 2px;
-    font-family: cursive;
     color: #666;
     text-align: left;
     text-indent: 2vw;
@@ -192,7 +187,6 @@
   }
 
   &--welcome {
-    font-family: cursive;
     color: #ccc;
     margin: 2vw 0;
   }
@@ -329,7 +323,7 @@
 
   &--description {
     width: 80%;
-    font-family: cursive;
+
     text-align: left;
     text-indent: 3%;
     overflow: hidden;
