@@ -1,8 +1,9 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+// import SelectUser from "../components/counter/SelectUser"
 
-const Counter = () => {
+const Counter = props => {
   const { data } = useQuery(gql`
     {
       shopId @client
@@ -11,8 +12,13 @@ const Counter = () => {
   `);
 
   const { shopId = "", feature = "" } = data || {};
+  const { beacons } = props;
 
-  return <div>{`${shopId} (${feature})`}</div>;
+  console.log("data:", data);
+
+  return <div>{`${shopId} (${feature})`}
+  {/* <SelectUser shopId={shopId} beacons={beacons}/> */}
+  </div>;
 };
 
 export default Counter;

@@ -60,7 +60,7 @@ export default class App extends Component {
               <DiningTable />
             </Route>
             <Route path="/counter">
-              <Counter />
+              <Counter beacons={beacons} />
             </Route>
             <Route path="/welcome-mat">
               <Counter />
