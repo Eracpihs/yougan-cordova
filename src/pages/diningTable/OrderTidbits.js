@@ -36,6 +36,5 @@ const getNewUsers = (users, prevUsers) => {
 const openNotification = newUsers => {
   // TODO: Enhance toast
 
-  Toast.info(`${newUsers.map(u => u.firstName)},欢迎你!`);
-  console.log("newUsers:", newUsers);
+  Toast.info(<h1>{newUsers.map(u => u.firstName)}，欢迎你!</h1>);
 };
