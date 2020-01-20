@@ -3,7 +3,7 @@ import SetupForm from "../components/SetupForm";
 import { useHistory } from "react-router-dom";
 import { useApolloClient } from "@apollo/react-hooks";
 
-export const Setup = ({ onSelectShop }) => {
+export const Setup = ({ onSetup }) => {
   const client = useApolloClient();
   const history = useHistory();
 
@@ -14,6 +14,8 @@ export const Setup = ({ onSelectShop }) => {
         feature
       }
     });
+
+    onSetup({ shop });
 
     switch (feature) {
       case "counter":
