@@ -44,7 +44,7 @@ export default class App extends Component {
 
   handleBeacons = beacons => {
     const beaconMinors = beacons.map(beacon => {
-      return `${beacon[0]}`;
+      return beacon[0].toString();
     });
 
     getUsersByBeaconMinors(beaconMinors).then(res => {
@@ -87,7 +87,7 @@ export default class App extends Component {
     const { initSdk, beacons, shop, users } = this.state;
 
     return (
-      <div className="hhhh">
+      <div>
         <HashRouter>
           <Diagnostics
             initSdk={initSdk}

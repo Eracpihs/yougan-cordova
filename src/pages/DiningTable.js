@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
-import { OrderTidbits2 } from "../pages";
+import { OrderTidbits } from "../pages";
 
 const DiningTable = ({ users }) => {
   const { data } = useQuery(gql`
@@ -14,7 +14,7 @@ const DiningTable = ({ users }) => {
   const { shopId = "" } = data || {};
   return (
     <div>
-      <OrderTidbits2 shopId={shopId} users={users} />
+      <OrderTidbits shopId={shopId} users={users} />
     </div>
   );
 };

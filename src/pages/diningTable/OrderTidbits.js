@@ -1,189 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { Carousel, notification, Toast } from "antd-mobile";
-import { diff } from "fast-array-diff";
+import React, { useState } from "react";
 import arrayDiffer from "array-differ";
-import getUser from "../../query/GetUser";
-import GetUsersByBeaconMinors from "../../query/GetUsersByBeaconMinors";
+import OrderCarousel from "./OrderCarousel";
+import { Toast } from "antd-mobile";
 
-// const openNotification = (
-//   carouselItems,
-//   previousNearbyUsers,
-//   setPreviousNearbyUsers,
-//   setIsNotify
-// ) => {
-//   if (!previousNearbyUsers) {
-//     setPreviousNearbyUsers(carouselItems);
-//     setTimeout(() => {
-//       if (carouselItems) {
-//         carouselItems.forEach(carouselItem => {
-//           Toast.info(`Hello, ${carouselItem.firstName}, 欢迎你！`);
-//         });
-//       }
-//     }, 2000);
-//     setIsNotify(false);
-//   } else {
-//     let prevUserIds = [];
-//     let currentUserIds = [];
+const OrderTidbits = ({ shopId = "", users = [] }) => {
+  const [prevUsers, setPrevUsers] = useState([]);
 
-//     carouselItems.forEach(carouselItem => {
-//       if (currentUserIds.indexOf(carouselItem.userId) === -1) {
-//         currentUserIds.push(carouselItem.userId);
-//       }
-//     });
+  const newUsers = getNewUsers(users, prevUsers);
 
-//     previousNearbyUsers.forEach(previousNearbyUser => {
-//       if (prevUserIds.indexOf(previousNearbyUser.userId) === -1) {
-//         prevUserIds.push(previousNearbyUser.userId);
-//       }
-//     });
+  const usersRemoved = getNewUsers(prevUsers, users);
 
-//     const newUserIds = currentUserIds.filter(currentUserId => {
-//       if (!prevUserIds.includes(currentUserId)) {
-//         return currentUserId;
-//       }
-//     });
+  if (usersRemoved.length) {
+    setPrevUsers(users);
+  }
 
-//     newUserIds.forEach(newUserId => {
-//       getUser(newUserId).then(data => {
-//         const {
-//           data: { getUser }
-//         } = data;
-//         Toast.info(`Hello, ${getUser.firstName}, 欢迎你！`);
-//       });
-//     });
-//   }
-// };
+  if (newUsers.length) {
+    setPrevUsers(users);
+    openNotification(newUsers);
+  }
 
-const openNotification = (
-  carouselItems,
-  previousNearbyUsers,
-  setPreviousNearbyUsers,
-  setIsNotify,
-  newUsers
-) => {
-  // console.log("previousNearbyUsers:", previousNearbyUsers);
-  // console.log("newUsers:", newUsers);
+  return <OrderCarousel users={users} />;
 };
 
-export default function OrderTidbits(props) {
-  const { shopId, beacons = [] } = props;
+export default OrderTidbits;
 
-  const [prevBeacons, setPrevBeacons] = useState([]);
-  const [newUsers, setNewUsers] = useState();
-  const [previousNearbyUsers, setPreviousNearbyUsers] = useState(null);
+const getNewUsers = (users, prevUsers) => {
+  const prevUserIds = prevUsers.map(p => p._id);
+  const userIds = users.map(u => u._id);
 
-  const [isNotify, setIsNotify] = useState(false);
-  const [carouselItems, setCarouselItems] = useState();
+  const newUserIds = arrayDiffer(userIds, prevUserIds);
 
-  if (!prevBeacons.length) {
-    GetUsersByBeaconMinors(beacons).then(res => {
-      const {
-        data: { getUsersByBeaconMinors }
-      } = res;
-      setPreviousNearbyUsers(getUsersByBeaconMinors);
-    });
-  }
+  return users.filter(u => newUserIds.includes(u._id));
+};
 
-  if (didBeaconsChange(beacons, prevBeacons, setNewUsers, newUsers)) {
-    setPrevBeacons(beacons);
+const openNotification = newUsers => {
+  // TODO: Enhance toast
 
-    GetUsersByBeaconMinors(beacons).then(res => {
-      const {
-        data: { getUsersByBeaconMinors }
-      } = res;
-
-      console.log("getUsersByBeaconMinors:", getUsersByBeaconMinors);
-      let carouselItems = [];
-
-      if (getUsersByBeaconMinors) {
-        getUsersByBeaconMinors.forEach(user => {
-          const { firstName, _id } = user;
-          const { currentOrders } = user;
-
-          if (currentOrders.length) {
-            currentOrders.forEach(currentOrder => {
-              if (currentOrder) {
-                const { menuItems } = currentOrder;
-
-                menuItems &&
-                  menuItems.forEach(menuItem => {
-                    carouselItems.push({ firstName, userId: _id, ...menuItem });
-                  });
-              } else {
-                carouselItems.push({ firstName, userId: _id });
-              }
-            });
-          } else {
-            carouselItems.push({ firstName, userId: _id });
-          }
-        });
-      }
-      setIsNotify(true);
-      openNotification(
-        carouselItems,
-        previousNearbyUsers,
-        setPreviousNearbyUsers,
-        setIsNotify
-      );
-      setCarouselItems(carouselItems);
-    });
-  }
-
-  return (
-    <div className="order-tidbits">
-      {isNotify &&
-        openNotification(
-          carouselItems,
-          previousNearbyUsers,
-          setPreviousNearbyUsers,
-          setIsNotify,
-          newUsers
-        )}
-      {carouselItems && (
-        <Carousel
-          autoplay
-          className="order-tidbits--carousel"
-          autoplaySpeed={5000}
-          effect="fade"
-        >
-          {carouselItems.map((carouselItem, index) => {
-            if (carouselItem.images) {
-              return (
-                <div key={index}>
-                  <img
-                    className="order-tidbits--food-images"
-                    src={carouselItem.images && carouselItem.images[0]}
-                    alt=""
-                  />
-                  <p className="order-tidbits--food-descriptions">
-                    {carouselItem.description && carouselItem.description}
-                  </p>
-                </div>
-              );
-            }
-          })}
-        </Carousel>
-      )}
-    </div>
-  );
-}
-
-const didBeaconsChange = (beacons, prevBeacons, setNewUsers, newUsers) => {
-  var diff = arrayDiffer(beacons, prevBeacons);
-
-  if (diff.length) {
-    GetUsersByBeaconMinors(diff).then(res => {
-      console.log("diff:", diff);
-
-      const {
-        data: { getUsersByBeaconMinors }
-      } = res;
-
-      console.log("getUsersByBeaconMinors:", getUsersByBeaconMinors);
-      setNewUsers(getUsersByBeaconMinors);
-      console.log("newUsers:", newUsers);
-    });
-    return true;
-  }
-  return false;
+  Toast.info(`${newUsers.map(u => u.firstName)},欢迎你!`);
+  console.log("newUsers:", newUsers);
 };

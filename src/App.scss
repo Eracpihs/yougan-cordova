@@ -105,7 +105,22 @@
     }
 
     .slider-decorator-0 {
-      bottom: 20% !important;
+      bottom: 30% !important;
+      @media screen and (max-width: 710px) {
+        bottom: 40% !important;
+      }
+      @media screen and (max-width: 630px) {
+        bottom: 45% !important;
+      }
+      @media screen and (max-width: 580px) {
+        bottom: 50% !important;
+      }
+      @media screen and (max-width: 500px) {
+        bottom: 60% !important;
+      }
+      @media screen and (max-width: 400px) {
+        bottom: 72% !important;
+      }
     }
   }
 
