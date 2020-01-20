@@ -51,6 +51,7 @@ export class SetupForm extends Component {
         <h1>Setup</h1>
         <List>
           <Picker
+            cols={1}
             title="Shop"
             data={shopList}
             value={shop}
@@ -59,6 +60,7 @@ export class SetupForm extends Component {
             <List.Item arrow="horizontal">Shop</List.Item>
           </Picker>
           <Picker
+            cols={1}
             title="Function"
             data={featureList}
             value={feature}
