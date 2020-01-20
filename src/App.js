@@ -32,14 +32,6 @@ export default class App extends Component {
       onBeacons: this.handleBeacons,
       userId: ""
     });
-
-    // TODO: Remove after testing
-    // setTimeout(() => {
-    //   this.handleBeacons(["3"]);
-    // }, 5000);
-    // setTimeout(() => {
-    //   this.handleBeacons(["1", "4"]);
-    // }, 10000);
   }
 
   handleBeacons = beacons => {

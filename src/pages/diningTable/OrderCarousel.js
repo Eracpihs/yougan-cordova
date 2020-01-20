@@ -9,7 +9,7 @@ const OrderCarousel = ({ users = [] }) => {
       autoplay
       infinite
       className="order-tidbits--carousel"
-      autoplaySpeed={5000}
+      autoplaySpeed={8000}
       effect="fade"
     >
       {carouselItems.map((carouselItem, index) => {
