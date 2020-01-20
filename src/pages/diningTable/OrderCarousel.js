@@ -1,5 +1,6 @@
 import React from "react";
 import { Carousel } from "antd-mobile";
+import ClampLines from "react-clamp-lines";
 
 const OrderCarousel = ({ users = [] }) => {
   const carouselItems = getCarouselItemsFromUsers(users);
@@ -22,7 +23,16 @@ const OrderCarousel = ({ users = [] }) => {
                 alt=""
               />
               <p className="order-tidbits--food-descriptions">
-                {carouselItem.description && carouselItem.description}
+                <ClampLines
+                  text={carouselItem.description && carouselItem.description}
+                  id="really-unique-id"
+                  lines={4}
+                  ellipsis="..."
+                  moreText=""
+                  lessText="Collapse"
+                  className="custom-class"
+                  innerElement="p"
+                />
               </p>
             </div>
           );

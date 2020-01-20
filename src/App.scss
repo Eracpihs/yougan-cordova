@@ -130,17 +130,36 @@
 
   &--food-descriptions {
     width: 100%;
-    // height: 40%;
-    padding: 10px 10px 2px;
+    height: 20%;
     color: #666;
     text-align: left;
     text-indent: 2vw;
     font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+  }
+}
+
+.am-toast {
+  background-color: rgba(0, 0, 0, 0.65);
+  .am-toast > span {
+    max-width: 70% !important;
+  }
+}
+
+.am-toast-text {
+  background-color: #fff !important;
+  min-width: 200px !important;
+
+  .am-card-header-content {
+    text-align: center;
+    display: block;
+  }
+}
+
+.am-card-body {
+  img {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
   }
 }
 /*****************************end order-tidbits********************************/

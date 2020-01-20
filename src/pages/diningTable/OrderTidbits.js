@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import arrayDiffer from "array-differ";
 import OrderCarousel from "./OrderCarousel";
-import { Toast } from "antd-mobile";
+import { Toast, Card, Flex, WhiteSpace } from "antd-mobile";
 
 const OrderTidbits = ({ shopId = "", users = [] }) => {
   const [prevUsers, setPrevUsers] = useState([]);
@@ -36,5 +36,22 @@ const getNewUsers = (users, prevUsers) => {
 const openNotification = newUsers => {
   // TODO: Enhance toast
 
-  Toast.info(<h1>{newUsers.map(u => u.firstName)}，欢迎你!</h1>);
+  Toast.info(
+    <Card>
+      <Card.Header title="欢迎你"></Card.Header>
+      <Card.Body>
+        <Flex wrap="wrap" justify="around">
+          {newUsers.map(u => {
+            return (
+              <Flex direction="column">
+                <img src={u.avatarUrl} alt="" />
+                <span>{u.firstName}</span>
+                <WhiteSpace />
+              </Flex>
+            );
+          })}
+        </Flex>
+      </Card.Body>
+    </Card>
+  );
 };
