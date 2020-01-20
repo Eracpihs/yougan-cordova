@@ -16,6 +16,7 @@ export default class App extends Component {
       initSdk: false,
       userId: "",
       beacons: [],
+      shop: {},
       users: []
     };
   }
@@ -62,7 +63,7 @@ export default class App extends Component {
     this.setState({ initSdk: true });
   };
 
-  handleSelectShop = shop => {
+  handleSetup = ({ shop }) => {
     this.setState({ shop });
   };
 
@@ -102,7 +103,7 @@ export default class App extends Component {
             }}
           >
             <Route exact path="/">
-              <Setup onSelectShop={this.handleSelectShop} />
+              <Setup onSetup={this.handleSetup} />
             </Route>
             <Route path="/dining-table">
               <DiningTable users={users} />

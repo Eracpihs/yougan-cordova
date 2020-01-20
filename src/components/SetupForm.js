@@ -9,7 +9,7 @@ export class SetupForm extends Component {
     this.state = {
       shopList: [],
       shop: {},
-      feature: ["diningTable"]
+      feature: ["counter"]
     };
   }
 
@@ -23,7 +23,10 @@ export class SetupForm extends Component {
         label: s.name,
         value: s
       }));
-      this.setState({ shopList });
+
+      this.setState({
+        shopList
+      });
     });
   }
 
@@ -67,7 +70,7 @@ export class SetupForm extends Component {
 
         <WhiteSpace />
         <Button
-          onClick={() => onSubmit({ shop, feature: feature[0] })}
+          onClick={() => onSubmit({ shop: shop[0], feature: feature[0] })}
           type="primary"
         >
           Submit
