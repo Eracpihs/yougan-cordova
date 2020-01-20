@@ -6,7 +6,8 @@ const OrderCarousel = ({ users = [] }) => {
 
   return (
     <Carousel
-      // autoplay
+      autoplay
+      infinite
       className="order-tidbits--carousel"
       autoplaySpeed={5000}
       effect="fade"
